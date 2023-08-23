@@ -1,0 +1,17 @@
+:root {
+  font-family: 'Roboto',sans-serif;
+  --color-frontend: #6bd1ff;
+  --color-datascience: #69953b;
+  --color-mobile: #ffba05;
+  --color-gray-light: #F5F5F5;
+  --color-primary-medium: #2A7AE4;
+  --color-black-lighter: #9E9E9E
+
+
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
