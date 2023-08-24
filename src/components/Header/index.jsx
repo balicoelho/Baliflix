@@ -3,7 +3,7 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../Button";
 import styles from "./Header.module.css";
-import logosm from "/public/imagens/logoBaliflix.png";
+import logosm from "/src/assets/imagens/logoBaliflix.png";
 
 export default function Header({ children }) {
   const navigate = useNavigate();

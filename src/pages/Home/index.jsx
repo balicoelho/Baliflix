@@ -1,20 +1,47 @@
 import Banner from "../../components/Banner";
-import Header from "../../components/Header";
-import styles from "./Home.module.css";
-import imageBanner from "../../components/Banner/player.png";
-import Footer from "../../components/Footer";
+import VideoCarousel from "../../components/Carrousel/VideoCarousel";
+import TitleCategory from "../../components/TitleCategory";
+import { videos, categories } from "../../database/db.json";
 
 export default function Home() {
+  const videoBanner = (id) => {
+    const video = videos.filter((video) => video.id === id);
+    return video;
+  };
+
+  const [videochosen] = videoBanner(1);
+
+  const categoryName = categories.find((category) => {
+    return category.categoryName === videochosen.categoryName;
+  });
+
   return (
     <>
-      <Header>Novo vídeo</Header>
+      {}
+
       <Banner
-        image={imageBanner}
-        title="Front End"
-        subtitle="SEO com React"
-        description="Esse desafio é uma forma de aprendizado. É um mecanismo onde você pode se engajar na resolução de um problema para poder aplicar todo o conhecimento adquirido na Formação React."
+        {...videochosen}
+        categoryColor={
+          categories.find(
+            (category) => category.categoryName === videochosen.categoryName
+          ).categoryColor
+        }
       />
-      <Footer />
+
+      <VideoCarousel categoria={categoryName} />
+
+      {categories.map((category) => {
+        return category.categoryName !== categoryName ? (
+          <div key={category.id}>
+            <TitleCategory
+              categoryColor={category.categoryColor}
+              titleCategory={category.categoryDisplayName}
+              categoryDescription={category.categoryDescription}
+            />
+            <VideoCarousel categoria={category.categoryName} />
+          </div>
+        ) : null;
+      })}
     </>
   );
 }
