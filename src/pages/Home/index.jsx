@@ -1,7 +1,7 @@
 import Banner from "../../components/Banner";
 import VideoCarousel from "../../components/Carrousel/VideoCarousel";
 import TitleCategory from "../../components/TitleCategory";
-import { videos, categories } from "../../database/db.json";
+import { videos, categories } from "../../database/db.js";
 
 export default function Home() {
   const videoBanner = (id) => {

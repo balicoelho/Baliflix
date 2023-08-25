@@ -3,6 +3,8 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import Button from "../../components/Button";
+import { categories } from "../../database/db.js";
+import VideosTable from "../../components/VideosTable";
 
 export default function NovaCategoria() {
   const [name, setName] = useState("");
@@ -19,7 +21,7 @@ export default function NovaCategoria() {
       categoryDisplayName: name,
     };
 
-    console.log(novaCategoria);
+    categories.push(novaCategoria);
   };
   const onClean = (ev) => {
     ev.preventDefault();
@@ -29,8 +31,26 @@ export default function NovaCategoria() {
     setColor("#000000");
   };
 
+  const onEdit = (ev) => {
+    const category = categories.find(
+      (c) => c.categoryDisplayName == ev.target.id
+    );
+    setName(category.categoryDisplayName);
+    setDescription(category.categoryDescription);
+    setId(category.id);
+    setColor(category.categoryColor);
+  };
+
+  const onRemove = (ev) => {
+    const category = categories.find(
+      (c) => c.categoryDisplayName == ev.target.id
+    );
+    const index = categories.findIndex((c) => c.id === category.id);
+    categories.splice(index, 1);
+  };
+
   return (
-    <Container>
+    <Container className={styles.container}>
       <form className={styles.form} onSubmit={onSave}>
         <div className={styles.main}>
           <h1>Nova Categoria</h1>
@@ -90,6 +110,8 @@ export default function NovaCategoria() {
           </div>
         </div>
       </form>
+
+      <VideosTable onEdit={onEdit} onRemove={onRemove} />
     </Container>
   );
 }

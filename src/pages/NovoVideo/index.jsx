@@ -5,7 +5,7 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { useState } from "react";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
-import { categories } from "../../database/db.json";
+import { videos, categories } from "../../database/db.js";
 
 export default function NovoVideo() {
   const [title, setTitle] = useState("");
@@ -28,8 +28,7 @@ export default function NovoVideo() {
       categoryDisplayName: select,
       categoryName: select.toLowerCase().replace(/\s/g, ""),
     };
-
-    console.log(novoVideo);
+    videos.push(novoVideo);
   };
   const onClean = (ev) => {
     ev.preventDefault();

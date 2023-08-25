@@ -2,8 +2,9 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import styles from "./VideoCarousel.module.css";
 import VideoCard from "../VideoCard";
-import { videos, categories } from "../../../database/db.json";
+import { videos, categories } from "../../../database/db.js";
 
+// eslint-disable-next-line react/prop-types
 export default function VideoCarousel({ categoria }) {
   const responsive = {
     desktop: {

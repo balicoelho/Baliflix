@@ -1,7 +1,7 @@
+/* eslint-disable react/prop-types */
 import styles from "./TitleCategory.module.css";
 
 export default function TitleCategory({
-  // eslint-disable-next-line react/prop-types
   categoryColor,
   titleCategory,
   categoryDescription,
