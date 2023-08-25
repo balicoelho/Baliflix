@@ -5,6 +5,7 @@ import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { useState } from "react";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
+import { categories } from "../../database/db.json";
 
 export default function NovoVideo() {
   const [title, setTitle] = useState("");
@@ -13,20 +14,36 @@ export default function NovoVideo() {
   const [description, setDescription] = useState("");
   const [id, setId] = useState("");
   const [select, setSelect] = useState("");
+
   const navigate = useNavigate();
 
   const onSave = (ev) => {
     ev.preventDefault();
-    console.log(title);
+    const novoVideo = {
+      title,
+      videoImgLink,
+      videoLink,
+      description,
+      id,
+      categoryDisplayName: select,
+      categoryName: select.toLowerCase().replace(/\s/g, ""),
+    };
+
+    console.log(novoVideo);
   };
   const onClean = (ev) => {
     ev.preventDefault();
-    console.log(description);
+    setDescription("");
+    setId("");
+    setSelect("");
+    setTitle("");
+    setVideoImgLink("");
+    setVideoLink("");
   };
 
   return (
     <Container>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={onSave}>
         <div className={styles.main}>
           <h1>Novo Video</h1>
           <TextField
@@ -77,12 +94,16 @@ export default function NovoVideo() {
               value={select}
               onChange={(ev) => setSelect(ev.target.value)}
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              {categories.map((category) => {
+                return (
+                  <MenuItem
+                    key={category.id}
+                    value={category.categoryDisplayName}
+                  >
+                    {category.categoryDisplayName}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
 
@@ -113,9 +134,7 @@ export default function NovoVideo() {
         </div>
         <div className={styles.buttons}>
           <div className={styles.buttonsLeft}>
-            <Button bgcolor="blue" onClick={onSave}>
-              Salvar
-            </Button>
+            <Button bgcolor="blue">Salvar</Button>
             <Button bgcolor="grey" onClick={onClean}>
               Limpar
             </Button>
