@@ -2,27 +2,29 @@
 import styles from "./VideosTable.module.css";
 import { categories } from "../../database/db";
 
-function createData(categoryDisplayName, description, edit, remove) {
-  return { categoryDisplayName, description, edit, remove };
-}
+export default function VideosTable({ onRemove, onEdit }) {
+  function createData(categoryDisplayName, description, edit, remove, id) {
+    return { categoryDisplayName, description, edit, remove, id };
+  }
 
-const tableData = categories.map((category) => {
-  return {
-    categoryDisplayName: category.categoryDisplayName,
-    categoryDescription: category.categoryDescription,
-  };
-});
+  const tableData = categories.map((category) => {
+    return {
+      categoryDisplayName: category.categoryDisplayName,
+      categoryDescription: category.categoryDescription,
+      id: category.id,
+    };
+  });
 
-const rows = tableData.map((row) => {
-  return createData(
-    row.categoryDisplayName,
-    row.categoryDescription,
-    "Editar",
-    "Remover"
-  );
-});
+  const rows = tableData.map((row) => {
+    return createData(
+      row.categoryDisplayName,
+      row.categoryDescription,
+      "Editar",
+      "Remover",
+      row.id
+    );
+  });
 
-export default function VideosTable({ onEdit, onRemove }) {
   return (
     <>
       <table className={styles.table}>
@@ -40,7 +42,7 @@ export default function VideosTable({ onEdit, onRemove }) {
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.categoryDisplayName}>
+            <tr key={row.id}>
               <td className={styles.cell} scope="row">
                 {row.categoryDisplayName}
               </td>
@@ -50,7 +52,7 @@ export default function VideosTable({ onEdit, onRemove }) {
               <td align="center">
                 <button
                   className={styles.btnTable}
-                  id={row.categoryDisplayName}
+                  id={row.id}
                   onClick={onEdit}
                 >
                   {row.edit}
@@ -59,7 +61,7 @@ export default function VideosTable({ onEdit, onRemove }) {
               <td align="center">
                 <button
                   className={styles.btnTable}
-                  id={row.categoryDisplayName}
+                  id={row.id}
                   onClick={onRemove}
                 >
                   {row.remove}

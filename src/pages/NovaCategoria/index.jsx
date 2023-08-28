@@ -1,117 +1,95 @@
 import styles from "./NovaCategoria.module.css";
 import Container from "@mui/material/Container";
-import TextField from "@mui/material/TextField";
-import { useState } from "react";
-import Button from "../../components/Button";
 import { categories } from "../../database/db.js";
 import VideosTable from "../../components/VideosTable";
+import { useNavigate } from "react-router-dom";
+import FormNovaCategoria from "../../components/FormNovaCategoria";
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function NovaCategoria() {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [id, setId] = useState("");
   const [color, setColor] = useState("#000000");
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const onSave = (ev) => {
-    ev.preventDefault();
-    const novaCategoria = {
-      categoryName: name.toLowerCase().replace(/\s/g, ""),
-      categoryColor: color,
-      categoryDescription: description,
-      categoryDisplayName: name,
-    };
-
-    categories.push(novaCategoria);
-  };
-  const onClean = (ev) => {
-    ev.preventDefault();
+  const clean = () => {
     setDescription("");
-    setId("");
     setName("");
     setColor("#000000");
   };
 
-  const onEdit = (ev) => {
+  const aoMudar = () => {
+    setError(false);
+    setErrorMessage("");
+
     const category = categories.find(
-      (c) => c.categoryDisplayName == ev.target.id
+      (c) => c.categoryName === name.toLowerCase().replace(/\s/g, "")
     );
-    setName(category.categoryDisplayName);
-    setDescription(category.categoryDescription);
-    setId(category.id);
-    setColor(category.categoryColor);
+
+    if (category) {
+      setError(true);
+      setErrorMessage(
+        "Categoria já existe, clique em editar ou digite uma nova categoria."
+      );
+      return;
+    }
+  };
+
+  const onSave = (ev) => {
+    ev.preventDefault();
+
+    if (!errorMessage) {
+      const novaCategoria = {
+        categoryName: name.toLowerCase().replace(/\s/g, ""),
+        categoryColor: color,
+        categoryDescription: description,
+        categoryDisplayName: name,
+        id: uuidv4(),
+      };
+
+      categories.push(novaCategoria);
+      alert("Categoria criada com sucesso!");
+      clean();
+    }
+  };
+
+  const onClean = (ev) => {
+    clean();
+    ev.preventDefault();
   };
 
   const onRemove = (ev) => {
-    const category = categories.find(
-      (c) => c.categoryDisplayName == ev.target.id
-    );
+    const category = categories.find((c) => c.id == String(ev.target.id));
     const index = categories.findIndex((c) => c.id === category.id);
+
     categories.splice(index, 1);
+    alert("Categoria removida com sucesso!");
+    navigate(`./`);
   };
 
   return (
     <Container className={styles.container}>
-      <form className={styles.form} onSubmit={onSave}>
-        <div className={styles.main}>
-          <h1>Nova Categoria</h1>
-          <TextField
-            className={styles.textField}
-            id="filled-basic"
-            variant="filled"
-            fullWidth
-            required
-            label="Nome"
-            type="text"
-            value={name}
-            onChange={(ev) => setName(ev.target.value)}
-          />
+      <FormNovaCategoria
+        onSave={onSave}
+        name={name}
+        onChangeName={(ev) => setName(ev.target.value)}
+        onChangeDescription={(ev) => setDescription(ev.target.value)}
+        onChangeColor={(ev) => setColor(ev.target.value)}
+        error={error}
+        errorMessage={errorMessage}
+        aoMudar={aoMudar}
+        description={description}
+        color={color}
+        onClean={onClean}
+      />
 
-          <TextField
-            className={styles.multilineField}
-            id="filled-basic"
-            variant="filled"
-            fullWidth
-            required
-            label="Descrição"
-            multiline
-            rows={4}
-            type="text"
-            value={description}
-            onChange={(ev) => setDescription(ev.target.value)}
-          />
-          <div className={styles.inputColor}>
-            <label>Cor:</label>
-            <input
-              type="color"
-              label="Cor"
-              value={color}
-              onChange={(ev) => setColor(ev.target.value)}
-            />
-          </div>
-
-          <TextField
-            className={styles.textField}
-            id="filled-basic"
-            variant="filled"
-            fullWidth
-            required
-            label="Código de segurança"
-            type="text"
-            value={id}
-            onChange={(ev) => setId(ev.target.value)}
-          />
-        </div>
-        <div className={styles.buttons}>
-          <div className={styles.buttonsLeft}>
-            <Button bgcolor="blue">Salvar</Button>
-            <Button bgcolor="grey" onClick={onClean}>
-              Limpar
-            </Button>
-          </div>
-        </div>
-      </form>
-
-      <VideosTable onEdit={onEdit} onRemove={onRemove} />
+      <VideosTable
+        onRemove={onRemove}
+        onEdit={(ev) => navigate(`./editar/${ev.target.id}`)}
+      />
     </Container>
   );
 }

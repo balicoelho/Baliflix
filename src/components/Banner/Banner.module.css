@@ -14,11 +14,11 @@
 
 .title {
   border-radius: 0.25rem;
-  background-color: var(--color-frontend);
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 18.5rem;
+  min-width: 18.5rem;
+  max-width: fit-content;
   height: 5.75rem;
   flex-shrink: 0;
   margin-bottom: 2.5rem;
@@ -59,6 +59,7 @@
   height: 20.84888rem;
   flex-shrink: 0;
   border-radius: 0.25rem;
+  margin-right: 2rem;
 }
 
 .player img {

@@ -4,42 +4,32 @@ import TitleCategory from "../../components/TitleCategory";
 import { videos, categories } from "../../database/db.js";
 
 export default function Home() {
-  const videoBanner = (id) => {
-    const video = videos.filter((video) => video.id === id);
-    return video;
-  };
-
-  const [videochosen] = videoBanner(1);
-
-  const categoryName = categories.find((category) => {
-    return category.categoryName === videochosen.categoryName;
-  });
+  const videochosen = videos[0];
+  const categoryColorBanner = categories.find(
+    (category) => category.categoryName === videochosen.categoryName
+  ).categoryColor;
 
   return (
     <>
-      {}
+      <Banner {...videochosen} categoryColor={categoryColorBanner} />
 
-      <Banner
-        {...videochosen}
-        categoryColor={
-          categories.find(
-            (category) => category.categoryName === videochosen.categoryName
-          ).categoryColor
-        }
-      />
-
-      <VideoCarousel categoria={categoryName} />
+      <VideoCarousel categoria={videochosen.categoryName} />
 
       {categories.map((category) => {
-        return category.categoryName !== categoryName ? (
-          <div key={category.id}>
-            <TitleCategory
-              categoryColor={category.categoryColor}
-              titleCategory={category.categoryDisplayName}
-              categoryDescription={category.categoryDescription}
-            />
-            <VideoCarousel categoria={category.categoryName} />
-          </div>
+        const videoExist = videos.some(
+          (video) => video.categoryName === category.categoryName
+        );
+        return videoExist ? (
+          category.categoryName !== videochosen.categoryName ? (
+            <div key={category.id}>
+              <TitleCategory
+                categoryColor={category.categoryColor}
+                titleCategory={category.categoryDisplayName}
+                categoryDescription={category.categoryDescription}
+              />
+              <VideoCarousel categoria={category.categoryName} />
+            </div>
+          ) : null
         ) : null;
       })}
     </>

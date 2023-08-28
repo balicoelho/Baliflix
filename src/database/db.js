@@ -1,6 +1,8 @@
+import { v4 as uuidv4 } from "uuid";
+
 let videos = [
   {
-    id: 1,
+    id: uuidv4(),
     categoryName: "frontend",
     categoryDisplayName: "Front End",
     title: "SEO com React",
@@ -11,7 +13,7 @@ let videos = [
     videoLink: "https://www.youtube.com/watch?v=CkGh3NM6NuQ",
   },
   {
-    id: 2,
+    id: uuidv4(),
     categoryName: "mobile",
     categoryDisplayName: "Mobile",
     title:
@@ -23,7 +25,7 @@ let videos = [
     videoLink: "https://www.youtube.com/watch?v=c8mVlakBESE",
   },
   {
-    id: 3,
+    id: uuidv4(),
     categoryName: "datascience",
     categoryDisplayName: "Data Science",
     title: "O que é React JS",
@@ -34,8 +36,9 @@ let videos = [
     videoLink: "https://www.youtube.com/watch?v=6IuQUgeDPg0",
   },
   {
-    id: 4,
+    id: uuidv4(),
     categoryName: "frontend",
+    categoryDisplayName: "Frontend",
     title: "Como usar Async/Await? Promises no JavaScript? ",
     description:
       "Eu vim falando desse video a um tempo já e ele chegou! Finalmente você vai parar de sofrer com async/await entendendo na prática como usar esses recursos do JavaScript vendo a essência, bora ver?",
@@ -44,7 +47,7 @@ let videos = [
     videoLink: "https://www.youtube.com/watch?v=q28lfkBd9F4",
   },
   {
-    id: 6,
+    id: uuidv4(),
     categoryName: "frontend",
     categoryDisplayName: "Frontend",
     title:
@@ -56,35 +59,35 @@ let videos = [
     videoLink: "https://www.youtube.com/watch?v=c8mVlakBESE",
   },
   {
-    id: 7,
+    id: uuidv4(),
     categoryName: "frontend",
     categoryDisplayName: "Front End",
     title: "SEO com React",
     description:
       "Esse desafio é uma forma de aprendizado. É um mecanismo onde você pode se engajar na resolução de um problema para poder aplicar todo o conhecimento adquirido na Formação React.",
     videoImgLink:
-      "https://i.ytimg.com/vi/CkGh3NM6NuQ/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLD79B2LmiUGAsOi4X_59tFtFtxQPw",
+      "https://i.ytimg.com/an_webp/HW7Hf42YdSk/mqdefault_6s.webp?du=3000&sqp=CIqqsqcG&rs=AOn4CLClBkNozGgsNk98tVTBAW9OVAPFfA",
     videoLink: "https://www.youtube.com/watch?v=CkGh3NM6NuQ",
   },
 ];
 
 let categories = [
   {
-    id: 1,
+    id: uuidv4(),
     categoryName: "frontend",
     categoryDisplayName: "Front End",
     categoryDescription: "Formação frontend na Alura",
     categoryColor: "#6bd1ff",
   },
   {
-    id: 2,
+    id: uuidv4(),
     categoryName: "datascience",
     categoryDisplayName: "Data Science",
     categoryDescription: "Formação datascience na Alura",
     categoryColor: "#69953b",
   },
   {
-    id: 3,
+    id: uuidv4(),
     categoryName: "mobile",
     categoryDisplayName: "Mobile",
     categoryDescription: "Formação mobile na Alura",

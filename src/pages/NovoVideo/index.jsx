@@ -6,16 +6,29 @@ import { useState } from "react";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { videos, categories } from "../../database/db.js";
+import { v4 as uuidv4 } from "uuid";
 
 export default function NovoVideo() {
   const [title, setTitle] = useState("");
   const [videoLink, setVideoLink] = useState("");
   const [videoImgLink, setVideoImgLink] = useState("");
   const [description, setDescription] = useState("");
-  const [id, setId] = useState("");
   const [select, setSelect] = useState("");
 
   const navigate = useNavigate();
+
+  const clean = () => {
+    setDescription("");
+    setSelect("");
+    setTitle("");
+    setVideoImgLink("");
+    setVideoLink("");
+  };
+
+  const onClean = (ev) => {
+    ev.preventDefault();
+    clean();
+  };
 
   const onSave = (ev) => {
     ev.preventDefault();
@@ -24,20 +37,13 @@ export default function NovoVideo() {
       videoImgLink,
       videoLink,
       description,
-      id,
       categoryDisplayName: select,
       categoryName: select.toLowerCase().replace(/\s/g, ""),
+      id: uuidv4(),
     };
     videos.push(novoVideo);
-  };
-  const onClean = (ev) => {
-    ev.preventDefault();
-    setDescription("");
-    setId("");
-    setSelect("");
-    setTitle("");
-    setVideoImgLink("");
-    setVideoLink("");
+    clean();
+    alert("Video criado com sucesso!");
   };
 
   return (
@@ -118,17 +124,6 @@ export default function NovoVideo() {
             type="text"
             value={description}
             onChange={(ev) => setDescription(ev.target.value)}
-          />
-          <TextField
-            className={styles.textField}
-            id="filled-basic"
-            variant="filled"
-            fullWidth
-            required
-            label="Código de segurança"
-            type="text"
-            value={id}
-            onChange={(ev) => setId(ev.target.value)}
           />
         </div>
         <div className={styles.buttons}>

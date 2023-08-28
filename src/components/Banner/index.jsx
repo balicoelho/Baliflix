@@ -20,7 +20,10 @@ export default function Banner({
         }}
       >
         <div className={styles.banner_left}>
-          <div className={styles.title}>
+          <div
+            className={styles.title}
+            style={{ backgroundColor: `${categoryColor}` }}
+          >
             <h1>{categoryDisplayName}</h1>
           </div>
           <div className={styles.subtitle}>
