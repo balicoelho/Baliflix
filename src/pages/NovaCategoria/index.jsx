@@ -1,10 +1,9 @@
 import styles from "./NovaCategoria.module.css";
 import Container from "@mui/material/Container";
-import { categories } from "../../database/db.js";
 import VideosTable from "../../components/VideosTable";
 import { useNavigate } from "react-router-dom";
 import FormNovaCategoria from "../../components/FormNovaCategoria";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export default function NovaCategoria() {
@@ -14,6 +13,23 @@ export default function NovaCategoria() {
   const [color, setColor] = useState("#000000");
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [categories, setCatgories] = useState([]);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const url = await fetch(
+          "https://my-json-server.typicode.com/balicoelho/baliflix-api/categories"
+        );
+        const categories = await url.json();
+        setCatgories(categories);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    fetchCategories();
+  }, []);
 
   const clean = () => {
     setDescription("");

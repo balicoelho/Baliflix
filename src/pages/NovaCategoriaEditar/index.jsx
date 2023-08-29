@@ -2,10 +2,42 @@ import styles from "./NovaCategoriaEditar.module.css";
 import Container from "@mui/material/Container";
 import FormNovaCategoria from "../../components/FormNovaCategoria";
 import { useNavigate, useParams } from "react-router-dom";
-import { categories, videos } from "../../database/db.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function NovaCategoriaEditar() {
+  const [videos, setVideos] = useState([]);
+  const [categories, setCatgories] = useState([]);
+
+  useEffect(() => {
+    async function fetchVideos() {
+      try {
+        const url = await fetch(
+          "https://my-json-server.typicode.com/balicoelho/baliflix-api/videos"
+        );
+        const videos = await url.json();
+        setVideos(videos);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    fetchVideos();
+  }, []);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const url = await fetch(
+          "https://my-json-server.typicode.com/balicoelho/baliflix-api/categories"
+        );
+        const categories = await url.json();
+        setCatgories(categories);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    fetchCategories();
+  }, []);
+
   const { id } = useParams();
   const categoryToEdit = categories.find((c) => String(c.id) === id);
 

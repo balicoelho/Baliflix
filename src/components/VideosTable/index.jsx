@@ -1,8 +1,25 @@
 /* eslint-disable react/prop-types */
 import styles from "./VideosTable.module.css";
-import { categories } from "../../database/db";
+import { useEffect, useState } from "react";
 
 export default function VideosTable({ onRemove, onEdit }) {
+  const [categories, setCatgories] = useState([]);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const url = await fetch(
+          "https://my-json-server.typicode.com/balicoelho/baliflix-api/categories"
+        );
+        const categories = await url.json();
+        setCatgories(categories);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    fetchCategories();
+  }, []);
+
   function createData(categoryDisplayName, description, edit, remove, id) {
     return { categoryDisplayName, description, edit, remove, id };
   }

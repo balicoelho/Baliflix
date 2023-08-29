@@ -2,10 +2,9 @@ import styles from "./NovoVideo.module.css";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
-import { videos, categories } from "../../database/db.js";
 import { v4 as uuidv4 } from "uuid";
 
 export default function NovoVideo() {
@@ -16,6 +15,39 @@ export default function NovoVideo() {
   const [select, setSelect] = useState("");
 
   const navigate = useNavigate();
+
+  const [videos, setVideos] = useState([]);
+  const [categories, setCatgories] = useState([]);
+
+  useEffect(() => {
+    async function fetchVideos() {
+      try {
+        const url = await fetch(
+          "https://my-json-server.typicode.com/balicoelho/baliflix-api/videos"
+        );
+        const videos = await url.json();
+        setVideos(videos);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    fetchVideos();
+  }, []);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const url = await fetch(
+          "https://my-json-server.typicode.com/balicoelho/baliflix-api/categories"
+        );
+        const categories = await url.json();
+        setCatgories(categories);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    fetchCategories();
+  }, []);
 
   const clean = () => {
     setDescription("");

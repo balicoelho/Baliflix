@@ -2,10 +2,44 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import styles from "./VideoCarousel.module.css";
 import VideoCard from "../VideoCard";
-import { videos, categories } from "../../../database/db.js";
+
+import { useEffect, useState } from "react";
 
 // eslint-disable-next-line react/prop-types
 export default function VideoCarousel({ categoria }) {
+  const [videos, setVideos] = useState([]);
+  const [categories, setCatgories] = useState([]);
+
+  useEffect(() => {
+    async function fetchVideos() {
+      try {
+        const url = await fetch(
+          "https://my-json-server.typicode.com/balicoelho/baliflix-api/videos"
+        );
+        const videos = await url.json();
+        setVideos(videos);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    fetchVideos();
+  }, []);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const url = await fetch(
+          "https://my-json-server.typicode.com/balicoelho/baliflix-api/categories"
+        );
+        const categories = await url.json();
+        setCatgories(categories);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    fetchCategories();
+  }, []);
+
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
