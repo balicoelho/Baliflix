@@ -8,36 +8,20 @@ import { useEffect, useState } from "react";
 // eslint-disable-next-line react/prop-types
 export default function VideoCarousel({ categoria }) {
   const [videos, setVideos] = useState([]);
-  const [categories, setCatgories] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    async function fetchVideos() {
-      try {
-        const url = await fetch(
-          "https://my-json-server.typicode.com/balicoelho/baliflix-api/videos"
-        );
-        const videos = await url.json();
-        setVideos(videos);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-    fetchVideos();
-  }, []);
-
-  useEffect(() => {
-    async function fetchCategories() {
-      try {
-        const url = await fetch(
-          "https://my-json-server.typicode.com/balicoelho/baliflix-api/categories"
-        );
-        const categories = await url.json();
-        setCatgories(categories);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-    fetchCategories();
+    Promise.all([
+      fetch(
+        "https://my-json-server.typicode.com/balicoelho/baliflix-api/videos"
+      ).then((resposta) => resposta.json()),
+      fetch(
+        "https://my-json-server.typicode.com/balicoelho/baliflix-api/categories"
+      ).then((resposta) => resposta.json()),
+    ]).then(([videosDados, categoriesDados]) => {
+      setVideos(videosDados);
+      setCategories(categoriesDados);
+    });
   }, []);
 
   const responsive = {

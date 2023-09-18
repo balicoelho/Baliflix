@@ -5,42 +5,29 @@ import TitleCategory from "../../components/TitleCategory";
 
 export default function Home() {
   const [videos, setVideos] = useState([]);
-  const [categories, setCatgories] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [videochosen, setVideoChosen] = useState([]);
+  const [categoryColorBanner, setCategoryColorBanner] = useState([]);
 
   useEffect(() => {
-    async function fetchVideos() {
-      try {
-        const url = await fetch(
-          "https://my-json-server.typicode.com/balicoelho/baliflix-api/videos"
-        );
-        const videos = await url.json();
-        setVideos(videos);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-    fetchVideos();
+    Promise.all([
+      fetch(
+        "https://my-json-server.typicode.com/balicoelho/baliflix-api/videos"
+      ).then((resposta) => resposta.json()),
+      fetch(
+        "https://my-json-server.typicode.com/balicoelho/baliflix-api/categories"
+      ).then((resposta) => resposta.json()),
+    ]).then(([videosDados, categoriesDados]) => {
+      setVideos(videosDados);
+      setVideoChosen(videosDados[0]);
+      setCategories(categoriesDados);
+      setCategoryColorBanner(
+        categoriesDados.find(
+          (category) => category.categoryName === videosDados[0].categoryName
+        ).categoryColor
+      );
+    });
   }, []);
-
-  useEffect(() => {
-    async function fetchCategories() {
-      try {
-        const url = await fetch(
-          "https://my-json-server.typicode.com/balicoelho/baliflix-api/categories"
-        );
-        const categories = await url.json();
-        setCatgories(categories);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-    fetchCategories();
-  }, []);
-
-  const videochosen = videos[0];
-  const categoryColorBanner = categories.find(
-    (category) => category.categoryName === videochosen.categoryName
-  ).categoryColor;
 
   return (
     <>

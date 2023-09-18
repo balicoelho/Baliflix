@@ -3,21 +3,16 @@ import styles from "./VideosTable.module.css";
 import { useEffect, useState } from "react";
 
 export default function VideosTable({ onRemove, onEdit }) {
-  const [categories, setCatgories] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    async function fetchCategories() {
-      try {
-        const url = await fetch(
-          "https://my-json-server.typicode.com/balicoelho/baliflix-api/categories"
-        );
-        const categories = await url.json();
-        setCatgories(categories);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-    fetchCategories();
+    fetch(
+      "https://my-json-server.typicode.com/balicoelho/baliflix-api/categories"
+    )
+      .then((resposta) => resposta.json())
+      .then((dados) => {
+        setCategories(dados);
+      });
   }, []);
 
   function createData(categoryDisplayName, description, edit, remove, id) {

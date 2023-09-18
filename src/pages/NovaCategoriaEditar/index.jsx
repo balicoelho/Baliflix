@@ -6,36 +6,24 @@ import { useEffect, useState } from "react";
 
 export default function NovaCategoriaEditar() {
   const [videos, setVideos] = useState([]);
-  const [categories, setCatgories] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    async function fetchVideos() {
-      try {
-        const url = await fetch(
-          "https://my-json-server.typicode.com/balicoelho/baliflix-api/videos"
-        );
-        const videos = await url.json();
-        setVideos(videos);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-    fetchVideos();
+    fetch("https://my-json-server.typicode.com/balicoelho/baliflix-api/videos")
+      .then((resposta) => resposta.json())
+      .then((dados) => {
+        setVideos(dados);
+      });
   }, []);
 
   useEffect(() => {
-    async function fetchCategories() {
-      try {
-        const url = await fetch(
-          "https://my-json-server.typicode.com/balicoelho/baliflix-api/categories"
-        );
-        const categories = await url.json();
-        setCatgories(categories);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-    fetchCategories();
+    fetch(
+      "https://my-json-server.typicode.com/balicoelho/baliflix-api/categories"
+    )
+      .then((resposta) => resposta.json())
+      .then((dados) => {
+        setCategories(dados);
+      });
   }, []);
 
   const { id } = useParams();
